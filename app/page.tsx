@@ -1,6 +1,7 @@
 'use server';
 
 import { DownloadButton } from './DownloadButton';
+import { IncrementButton } from './IncrementButton';
 
 
 export async function LegendGuessingGame() {
@@ -19,6 +20,8 @@ export default async function Home() {
       <p>This is the home page!!</p>
       <DownloadButton />
       <LegendGuessingGame />
+      <br></br>
+      <IncrementButton />
     </>
   );
 }

@@ -3,6 +3,7 @@ services:
     build: .
     ports:
       - "3000:3000"
+    stdin_open: true
     volumes:
       - .:/app
     develop:
@@ -12,3 +13,15 @@ services:
           target: /app
         - action: rebuild
           path: package.json
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-data:/data/db
+
+volumes:
+  db-data:

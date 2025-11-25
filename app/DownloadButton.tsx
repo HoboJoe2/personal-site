@@ -1,4 +1,5 @@
 'use client';
+
 import { downloadScryfallData } from './helpers';
 
 export function DownloadButton() {

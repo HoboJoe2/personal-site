@@ -9,9 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "^16",
-    "react": "^19",
-    "react-dom": "^19"
+    "mongodb": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
