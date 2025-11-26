@@ -1,6 +1,6 @@
 'use server';
 
-import { DownloadButton } from './DownloadButton';
+import { SyncButton } from './SyncButton';
 import { IncrementButton } from './IncrementButton';
 
 
@@ -18,10 +18,13 @@ export default async function Home() {
   return (
     <>
       <p>This is the home page!!</p>
-      <DownloadButton />
-      <LegendGuessingGame />
+      <br></br>
+      <SyncButton />
       <br></br>
       <IncrementButton />
+      <br></br>
+      <br></br>
+      <LegendGuessingGame />
     </>
   );
 }

@@ -15,40 +15,48 @@ async function connectToDatabase() {
 }
 
 
-export async function downloadScryfallData() {
+export async function syncScryfallData() {
     const db = await connectToDatabase();
-    const collection = db.collection('scryfall_data');
+    const scryfallCollection = db.collection('scryfall_data');
     const metadataCollection = db.collection('scryfall_metadata');
-    const data = await fetch('https://api.scryfall.com/bulk-data')
+    const scryfallRawMetaData = await fetch('https://api.scryfall.com/bulk-data')
         .then(res => res.json());
 
     console.log('Fetched Scryfall bulk data metadata:');
-    console.log(data);
+    console.log(scryfallRawMetaData);
 
+    const dbScryfallRawMetaData = await metadataCollection.findOne({});
 
-
-    if (data.data[0].updated_at !== metadata.oracleCardsLastUpdated) {
-        console.log('Downloading updated oracle cards data...');
-        const res = await fetch(data.data[0].download_uri)
+    if (!dbScryfallRawMetaData) {
+        await metadataCollection.insertOne(scryfallRawMetaData);
+        console.log('Scryfall metadata inserted into database.');
+    } else if (scryfallRawMetaData.data[0].updated_at !== (dbScryfallRawMetaData.data?.[0]?.updated_at ?? null)) {
+        await metadataCollection.updateOne({}, { $set: scryfallRawMetaData });
+        console.log('Scryfall metadata updated in database.');
+        const newScryfallData = await fetch(scryfallRawMetaData.data[0].download_uri)
             .then(res => res.json());
-
-        const cardsPath = path.join(process.cwd(), 'app', 'scryfall', 'scryfall_oracle_cards.json');
-        await fs.writeFile(cardsPath, JSON.stringify(res));
-
-
+        await scryfallCollection.deleteMany({});
+        await scryfallCollection.insertMany(newScryfallData);
+        console.log('Scryfall data updated in database.');
     } else {
-        console.log('Oracle cards data is up to date.');
+        console.log('Scryfall data is already up to date. No action taken.');
     }
-
-    metadata.oracleCardsLastUpdated = data.data[0].updated_at;
-    await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2));
-    console.log('Scryfall data updated successfully.');
-
-
 }
 
 
 export async function incrementCounter() {
     const db = await connectToDatabase();
-    console.log('Database connection established:', db.databaseName);
+    const counterCollection = db.collection('counter');
+    const counter = await counterCollection.findOne({});
+
+    if (!counter) {
+        await counterCollection.insertOne({ count: 1 });
+        console.log('Counter incremented, new count:', 1);
+    } else {
+        const newCount = counter.count + 1;
+        await counterCollection.updateOne({}, { $set: { count: newCount } });
+        console.log('Counter incremented, new count:', newCount);
+    }
+
+
 }
