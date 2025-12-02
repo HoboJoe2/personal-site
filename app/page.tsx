@@ -1,30 +1,18 @@
 'use server';
 
-import { SyncButton } from './SyncButton';
-import { IncrementButton } from './IncrementButton';
-
-
-export async function LegendGuessingGame() {
-  return (
-    <div>
-      <h2>Legend Guessing Game</h2>
-      <p>Guess the legendary creature based on its description!</p>
-      {/* Game implementation goes here */}
-    </div>
-  );
-}
-
-export default async function Home() {
+export default async function App() {
   return (
     <>
-      <p>This is the home page!!</p>
-      <br></br>
-      <SyncButton />
-      <br></br>
-      <IncrementButton />
-      <br></br>
-      <br></br>
-      <LegendGuessingGame />
+      <p>Welcome to my website :)</p>
+      <br />
+      <a href="/about">About</a>
+      <br />
+      <br />
+      <a href="/counter">Counter</a>
+      <br />
+      <br />
+      <a href="/magicgame">MTG Game</a>
+      <br />
     </>
   );
 }

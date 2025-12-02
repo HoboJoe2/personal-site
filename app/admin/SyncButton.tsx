@@ -1,10 +1,11 @@
 'use client';
 
-import { syncScryfallData } from './helpers';
+import { syncScryfallData } from './syncScryfallData';
 
 export function SyncButton() {
     const handleClick = async () => {
-        await syncScryfallData();
+        const result = await syncScryfallData();
+        alert(result);
     };
 
     return (

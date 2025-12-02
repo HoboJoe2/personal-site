@@ -1,8 +1,7 @@
-@import "tailwindcss";
-
 :root {
-  --background: #444444;
-  --foreground: #e7a707;
+  --background: #000000;
+  --foreground: #ffffff;
+  --dark-blue: #0000ff;
 }
 
 head {
@@ -13,4 +12,5 @@ head {
 body {
   background-color: var(--background);
   color: var(--foreground);
+  padding: 1rem;
 }
